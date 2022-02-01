@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cinema.authHandler.exception.AccountNotFound;
 import com.cinema.authHandler.request.Login;
+import com.cinema.authHandler.request.RefreshToken;
 import com.cinema.authHandler.response.Data;
 import com.cinema.authHandler.response.Token;
 import com.cinema.authHandler.service.LoginService;
+import com.cinema.authHandler.value.Tokens;
 
 @Controller
 @RequestMapping("/auth")
@@ -27,12 +29,24 @@ public class LoginController {
 	@RequestMapping(method = RequestMethod.POST, value = "/login")
 	public ResponseEntity<Data> login(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Login login) throws AccountNotFound {
-		String accessToken = loginService.doLogin(login.getUsername(), login.getPassword());
-		return ResponseEntity.ok(new Token(200, HttpStatus.OK.name(), accessToken, null));
+		Tokens tokens = loginService.doLogin(login.getUsername(), login.getPassword());
+		Data responseData = new Data(200, HttpStatus.OK.name(),
+				new Token(tokens.getAccessToken(),tokens.getRefreshToken()));
+		return ResponseEntity.ok(responseData);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/refresh")
-	public ResponseEntity<Data> refreshToken(HttpServletRequest request, HttpServletResponse response) {
+	public ResponseEntity<Data> refreshToken(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody RefreshToken token) throws AccountNotFound {
+		Tokens tokens = loginService.refreshToken(token.getRefreshToken());
+		Data responseData = new Data(200, HttpStatus.OK.name(),
+				new Token(tokens.getAccessToken(),tokens.getRefreshToken()));
+		return ResponseEntity.ok(responseData);
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/logout")
+	public ResponseEntity<Data> logout(HttpServletRequest request, HttpServletResponse response) 
+			throws AccountNotFound {
 		return null;
 	}
 

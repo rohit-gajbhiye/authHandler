@@ -11,7 +11,6 @@ public class Config {
 	
 	@Bean
 	public Algorithm setDefaultAlgorithmForJWT() {
-		System.out.println("Initilizing default algorithm");
 		return Algorithm.HMAC256("secret".getBytes());
 	}
 }

@@ -1,14 +1,18 @@
 package com.cinema.authHandler.model;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.cinema.authHandler.util.DateUtil;
@@ -35,17 +39,19 @@ public class Authentication {
 	@Column(name="LAST_LOGIN_TLM")
 	private Date lastLoginTLM;
 	@Column(name="RETRY_TLM")
-	private Date retryTLM;
+	private Timestamp retryTLM;
 	@Column(name="PASSWORD_CHANGE_TLM")
-	private Date passwordChangeTLM;
+	private Timestamp passwordChangeTLM;
 	@Column(name="LAST_LOCKED_TLM")
-	private Date lastLockedTLM;
+	private Timestamp lastLockedTLM;
 	@Column(name="LAST_RESET_TLM")
-	private Date lastResetTLM;
+	private Timestamp lastResetTLM;
 	@Column(name="WHEN_CREATED")
-	private Date whenCreated;
+	private Timestamp whenCreated;
 	@Column(name="TLM")
-	private Date TLM;
+	private Timestamp TLM;
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<AuthenticationToken> tokens;
 	
 	//Need for hibernate
 	public Authentication() {
@@ -63,57 +69,81 @@ public class Authentication {
 		this.password = password;
 		this.status = status;
 		// TODO create util class to return current date and time
-		this.whenCreated = DateUtil.now();
-		this.TLM = DateUtil.now();
+		this.whenCreated =DateUtil.dbDateNow();
+		this.TLM = DateUtil.dbDateNow();
 	}
 	
 	
-	
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
-
 	public void setId(long id) {
 		this.id = id;
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
+	public void setUsername(String username) {
+		this.username = username;
+	}
 	public String getPassword() {
 		return password;
 	}
-
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	public Status getStatus() {
 		return status;
 	}
-
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 	public Date getLastLoginTLM() {
 		return lastLoginTLM;
 	}
-
-	public Date getRetryTLM() {
+	public void setLastLoginTLM(Date lastLoginTLM) {
+		this.lastLoginTLM = lastLoginTLM;
+	}
+	public Timestamp getRetryTLM() {
 		return retryTLM;
 	}
-
-	public Date getPasswordChangeTLM() {
+	public void setRetryTLM(Timestamp retryTLM) {
+		this.retryTLM = retryTLM;
+	}
+	public Timestamp getPasswordChangeTLM() {
 		return passwordChangeTLM;
 	}
-
-	public Date getLastLockedTLM() {
+	public void setPasswordChangeTLM(Timestamp passwordChangeTLM) {
+		this.passwordChangeTLM = passwordChangeTLM;
+	}
+	public Timestamp getLastLockedTLM() {
 		return lastLockedTLM;
 	}
-
-	public Date getLastResetTLM() {
+	public void setLastLockedTLM(Timestamp lastLockedTLM) {
+		this.lastLockedTLM = lastLockedTLM;
+	}
+	public Timestamp getLastResetTLM() {
 		return lastResetTLM;
 	}
-
-	public Date getWhenCreated() {
+	public void setLastResetTLM(Timestamp lastResetTLM) {
+		this.lastResetTLM = lastResetTLM;
+	}
+	public Timestamp getWhenCreated() {
 		return whenCreated;
 	}
-
-	public Date getTLM() {
+	public void setWhenCreated(Timestamp whenCreated) {
+		this.whenCreated = whenCreated;
+	}
+	public Timestamp getTLM() {
 		return TLM;
+	}
+	public void setTLM(Timestamp tLM) {
+		TLM = tLM;
+	}
+	public List<AuthenticationToken> getTokens() {
+		return tokens;
+	}
+	public void setTokens(List<AuthenticationToken> tokens) {
+		this.tokens = tokens;
 	}
 }

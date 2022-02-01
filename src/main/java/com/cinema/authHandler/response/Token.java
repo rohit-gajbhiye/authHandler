@@ -1,22 +1,15 @@
 package com.cinema.authHandler.response;
 
-public class Token extends Data{
+public class Token{
 
-	// Super class
-	public Token(int code, String status) {
-		super(code, status);
-	}
-	
-	public Token(int code, String status,String accessToken, String refreshToken) {
-		super(code, status);
-		this.access_token = accessToken;
-		this.refresh_token = refreshToken;
-	}
-	
 	
 	private String access_token;
 	private String refresh_token;
 	
+	public Token(String accessToken, String refreshToken) {
+		this.access_token = accessToken;
+		this.refresh_token = refreshToken;
+	}
 	
 	public String getAccess_token() {
 		return access_token;

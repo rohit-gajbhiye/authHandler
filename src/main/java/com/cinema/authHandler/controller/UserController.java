@@ -27,14 +27,14 @@ public class UserController {
 			@RequestBody Registration registration){
 		registrationService.register(registration.getFirstName(), registration.getLastName(),
 				registration.getPhone(), registration.getEmail());
-		return ResponseEntity.ok(new Data(200,HttpStatus.OK.name()));
+		return ResponseEntity.ok(new Data(200,HttpStatus.OK.name(),null));
 	}
 	
 	@RequestMapping(method =RequestMethod.POST, value = "/user", consumes="application/json")
 	public ResponseEntity<Data> registerUsername(HttpServletRequest request , HttpServletResponse response,
 			@RequestBody RegisterUser registerUser) throws AccountNotFoundException{
 		registrationService.registerUser(registerUser.getId(), registerUser.getUsername(), registerUser.getPassword());
-		return ResponseEntity.ok(new Data(200,HttpStatus.OK.name()));
+		return ResponseEntity.ok(new Data(200,HttpStatus.OK.name(),null));
 	}
 
 }
